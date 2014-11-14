@@ -3,9 +3,10 @@
 
 require_relative 'connection'
 require_relative 'rental_offer_need_packet'
+require_relative 'rental_offer_solution_packet'
 
 # Streams rental-offer-related requests to the console
-class RentalOfferSolution
+class MemberRentalOfferSolution
 
   def initialize(host, bus_name)
     @host = host
@@ -22,7 +23,7 @@ private
   end
 
   def solution_for(need)
-    RentalOfferSolutionPacket.new(1000, "Trabant")
+    RentalOfferSolutionPacket.new(1000000, "Awesme car. AWESOME.")
   end
 
   def propose_solution_for(need, exchange)
@@ -40,9 +41,8 @@ private
       need = need(body)
       puts " [x] Received need: #{need}"
 
-      return  puts " [x] Solution already found. Ignoring..." if need.has_solutions?
-
-      unless need.for_member?
+      if need.for_member?
+        return puts " [x] Solution already found. Ignoring..." if need.has_solutions? &&
         solution = propose_solution_for(need, exchange)
         puts " [x] Proposed solutions: #{solution}"
       end
@@ -51,4 +51,4 @@ private
 
 end
 
-RentalOfferSolution.new(ARGV.shift, ARGV.shift).start
+MemberRentalOfferSolution.new(ARGV.shift, ARGV.shift).start

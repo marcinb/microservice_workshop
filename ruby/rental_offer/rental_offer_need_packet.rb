@@ -9,14 +9,16 @@ class RentalOfferNeedPacket
     new(solutions)
   end
 
-  def initialize(solutions = [])
+  def initialize(solutions = [], member_user = false)
     @solutions = solutions
+    @member_user = member_user
   end
 
   def to_json(*args)
     {
       'json_class' => self.class.name,
       'need' => NEED,
+      'member_user' => @member_user,
       'solutions' => @solutions
     }.to_json
   end
@@ -31,4 +33,9 @@ class RentalOfferNeedPacket
     @solutions << solution
   end
 
+  def for_member?
+    !!@member_user
+  end
+
 end
+
