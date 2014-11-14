@@ -4,8 +4,13 @@ require 'json'
 class RentalOfferNeedPacket
   NEED = 'car_rental_offer'
 
-  def initialize
-    @solutions = []
+  def self.from_json(json)
+    solutions = JSON.load(json).fetch('solutions', [])
+    new(solutions)
+  end
+
+  def initialize(solutions = [])
+    @solutions = solutions
   end
 
   def to_json(*args)
@@ -14,6 +19,12 @@ class RentalOfferNeedPacket
       'need' => NEED,
       'solutions' => @solutions
     }.to_json
+  end
+
+  alias_method :to_s, :to_json
+
+  def has_solutions?
+    !@solutions.empty?
   end
 
   def propose_solution(solution)

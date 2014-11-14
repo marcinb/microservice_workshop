@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 require_relative 'rental_offer_need_packet'
+require_relative 'rental_offer_solution_packet'
 require_relative 'connection'
 
 # Expresses a need for rental car offers
